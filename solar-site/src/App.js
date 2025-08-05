@@ -1,24 +1,146 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useRef, useState } from 'react';
+import emailjs from 'emailjs-com';
 import './App.css';
 
 function App() {
+  // EmailJS form state
+  const formRef = useRef();
+  const [formStatus, setFormStatus] = useState('');
+
+  // EmailJS send handler (client-side, requires EmailJS setup)
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setFormStatus('Sending...');
+    // TODO: Replace the following with your EmailJS service ID, template ID, and user/public key
+    emailjs.sendForm(
+      'service_xxx', // <-- Replace with your EmailJS service ID
+      'template_xxx', // <-- Replace with your EmailJS template ID
+      formRef.current,
+      'user_xxx' // <-- Replace with your EmailJS user/public key
+    ).then(
+      (result) => {
+        setFormStatus('Message sent successfully!');
+        formRef.current.reset();
+      },
+      (error) => {
+        setFormStatus('Failed to send. Please try again.');
+      }
+    );
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="solar-site">
+      {/* Hero Section */}
+      <section className="hero">
+        <img src="https://via.placeholder.com/120x120?text=Logo" alt="Solectric Solutions Logo" className="logo" />
+        <h1>Solectric Solutions</h1>
+        <h2>Solar Panel Installation Services</h2>
+        <p>One-stop solution for all your solar power needs.</p>
+        <a href="#contact" className="cta-btn">Free Planning & Consultation</a>
+      </section>
+
+      {/* About Us */}
+      <section className="about" id="about">
+        <h2>About Us</h2>
+        <p>We are one of the most trusted solar solutions companies driven by innovation and loyalty to help clients overcome problems faced due to traditional electricity hurdles. We are here to bridge the gap between your problems to the right solution.</p>
+        <div className="why-choose">
+          <h3>Why Choose Us?</h3>
+          <p>Solectric Solutions specializes in delivering top-notch solar installation and comprehensive energy solutions tailored to illuminate your path to sustainable living.</p>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section className="services" id="services">
+        <h2>Our Services</h2>
+        <ul>
+          <li>End-to-end solar panel installation</li>
+          <li>Solar system maintenance and repair</li>
+          <li>Solar energy consultation and planning</li>
+          <li>On-grid liasioning and commissioning</li>
+          <li>Site assessments</li>
+          <li>Annual maintenance for off-grid and battery-based systems</li>
+          <li>Supply of Bill of Materials</li>
+          <li>Breakdown visits (chargeable basis)</li>
+        </ul>
+      </section>
+
+      {/* Power Generation Summary */}
+      <section className="power-summary">
+        <h2>Solar Energy System Power Generation Summary</h2>
+        <div className="power-table">
+          <div><b>1 KW</b> - 3 to 4 units/day (90-120/month)</div>
+          <div><b>2 KW</b> - 6 to 8 units/day (180-240/month)</div>
+          <div><b>3 KW</b> - 9 to 12 units/day (270-360/month)</div>
+          <div><b>4 KW</b> - 12 to 16 units/day (360-480/month)</div>
+          <div><b>5 KW</b> - 15 to 20 units/day (450-600/month)</div>
+          <div><b>6 KW</b> - 18 to 24 units/day (540-720/month)</div>
+          <div><b>7 KW</b> - 21 to 28 units/day (630-840/month)</div>
+          <div><b>8 KW</b> - 24 to 32 units/day (720-960/month)</div>
+          <div><b>9 KW</b> - 27 to 36 units/day (810-1080/month)</div>
+          <div><b>10 KW</b> - 30 to 40 units/day (900-1200/month)</div>
+        </div>
+      </section>
+
+      {/* Brands */}
+      <section className="brands">
+        <h2>Our Brands</h2>
+        <ul>
+          <li>Loom Solar</li>
+          <li>Luminous Solar</li>
+          <li>Panasonic Energy</li>
+          <li>Havells</li>
+          <li>Goldi Solar</li>
+          <li>JA Solar</li>
+          <li>ORB Energy</li>
+          <li>Trina Solar</li>
+          <li>Goodwee</li>
+          <li>Growatt</li>
+          <li>UTL Solar</li>
+          <li>Eastman Solar</li>
+          <li>Kirloskar Solar</li>
+          <li>Tata Power</li>
+        </ul>
+      </section>
+
+      {/* Gallery/Projects */}
+      <section className="gallery" id="gallery">
+        <h2>Our Projects</h2>
+        <div className="gallery-grid">
+          <img src="https://via.placeholder.com/350x200?text=Project+1" alt="Project 1" />
+          <img src="https://via.placeholder.com/350x200?text=Project+2" alt="Project 2" />
+          <img src="https://via.placeholder.com/350x200?text=Project+3" alt="Project 3" />
+          <img src="https://via.placeholder.com/350x200?text=Project+4" alt="Project 4" />
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section className="contact" id="contact">
+        <h2>Contact Us</h2>
+        <div className="contact-info">
+          <div>
+            <b>Address:</b> No. 89, 1st flr, (JP), 3rd Cross, LIC COLONY, Opp - Park, 3rd Block East Jayanagar, Bengaluru - 11
+          </div>
+          <div>
+            <b>Phone/WhatsApp:</b> <a href="tel:+919538921012">+91 95389 21012</a>
+          </div>
+          <div>
+            <b>Email:</b> <a href="mailto:rsingh70090@gmail.com">rsingh70090@gmail.com</a>
+          </div>
+        </div>
+        <form ref={formRef} onSubmit={sendEmail} className="contact-form">
+          <input type="text" name="user_name" placeholder="Your Name" required />
+          <input type="email" name="user_email" placeholder="Your Email" required />
+          <textarea name="message" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+          <div className="form-status">{formStatus}</div>
+        </form>
+      </section>
+
+      {/* Footer */}
+      <footer>
+        <div>© {new Date().getFullYear()} Solectric Solutions. All rights reserved.</div>
+        <div><a href="https://solectricsolutions.in" target="_blank" rel="noopener noreferrer">www.solectricsolutions.in</a></div>
+      </footer>
     </div>
   );
 }
