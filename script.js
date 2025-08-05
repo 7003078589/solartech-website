@@ -73,7 +73,7 @@ const animateElements = document.querySelectorAll('.service-card, .feature, .con
 animateElements.forEach(el => {
     observer.observe(el);
 });
-
+/*
 // Contact form handling
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
@@ -108,7 +108,7 @@ if (contactForm) {
             submitBtn.disabled = false;
         }, 2000);
     });
-}
+*/
 
 // Notification system
 function showNotification(message, type = 'success') {
@@ -387,25 +387,40 @@ function validateForm(form) {
 
 // Enhanced form submission with validation
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         if (!validateForm(this)) {
             showNotification('Please fill in all required fields correctly.', 'error');
             return;
         }
-        
-        // Continue with form submission logic...
+
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
-        
-        setTimeout(() => {
-            this.reset();
-            showNotification('Thank you! Your message has been sent successfully. We\'ll get back to you soon!', 'success');
+
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // Redirect to your custom page after success
+                window.location.href = "https://stunning-tartufo-87dcc9.netlify.app/"; // 👈 Replace with your webpage
+            } else {
+                showNotification('Something went wrong. Please try again later.', 'error');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }).catch(error => {
+            showNotification('Error: ' + error.message, 'error');
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-        }, 2000);
+        });
     });
 }
