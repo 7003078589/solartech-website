@@ -411,7 +411,7 @@ if (contactForm) {
         }).then(response => {
             if (response.ok) {
                 // Redirect to your custom page after success
-                window.location.href = "https://stunning-tartufo-87dcc9.netlify.app/"; // 👈 Replace with your webpage
+                window.location.href = "https://solectric.netlify.app"; // 👈 Replace with your webpage
             } else {
                 showNotification('Something went wrong. Please try again later.', 'error');
                 submitBtn.textContent = originalText;
